@@ -1,64 +1,80 @@
-import { useState } from "react";
+import React from "react";
 
-const AddTask = ({ onAddTask }) => {
-    const [text, setText] = useState("");
-    const [day, setDay] = useState("");
-    const [reminder, setReminder] = useState(false);
+class AddTask extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const onSubmit = (e) => {
+        this.state = {
+            text: "",
+            day: "",
+            reminder: false,
+        };
+    }
+
+    onSubmit = (e) => {
         e.preventDefault();
 
-        if (!text) {
+        if (!this.state.text) {
             alert("Please add a task");
             return;
         }
 
-        onAddTask({ text, day, reminder });
+        this.props.onAddTask({
+            text: this.state.text,
+            day: this.state.day,
+            reminder: this.state.reminder,
+        });
 
-        setText("");
-        setDay("");
-        setReminder(false);
+        this.setState({ text: "" });
+        this.setState({ day: "" });
+        this.setState({ reminder: false });
     };
 
-    return (
-        <form className="add-form" onSubmit={onSubmit}>
-            <div className="form-control">
-                <label htmlFor="add_task">Task</label>
+    render() {
+        return (
+            <form className="add-form" onSubmit={this.onSubmit}>
+                <div className="form-control">
+                    <label htmlFor="add_task">Task</label>
+                    <input
+                        type="text"
+                        placeholder="Add Task"
+                        id="add_task"
+                        value={this.state.text}
+                        onChange={(e) =>
+                            this.setState({ text: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="form-control">
+                    <label htmlFor="add_day">Day & Time</label>
+                    <input
+                        type="text"
+                        placeholder="Add Day & Time"
+                        id="add_day"
+                        value={this.state.day}
+                        onChange={(e) => this.setState({ day: e.target.value })}
+                    />
+                </div>
+                <div className="form-control form-control-check">
+                    <label htmlFor="add_reminder">Set Reminder</label>
+                    <input
+                        type="checkbox"
+                        id="add_reminder"
+                        value={this.state.reminder}
+                        onChange={(e) =>
+                            this.setState({ reminder: e.target.value })
+                        }
+                    />
+                </div>
                 <input
-                    type="text"
-                    placeholder="Add Task"
-                    id="add_task"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    type="submit"
+                    id="submit"
+                    value="Save Task"
+                    className="btn btn-block"
                 />
-            </div>
-            <div className="form-control">
-                <label htmlFor="add_day">Day & Time</label>
-                <input
-                    type="text"
-                    placeholder="Add Day & Time"
-                    id="add_day"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                />
-            </div>
-            <div className="form-control form-control-check">
-                <label htmlFor="add_reminder">Set Reminder</label>
-                <input
-                    type="checkbox"
-                    id="add_reminder"
-                    value={reminder}
-                    onChange={(e) => setReminder(e.currentTarget.checked)}
-                />
-            </div>
-            <input
-                type="submit"
-                id="submit"
-                value="Save Task"
-                className="btn btn-block"
-            />
-        </form>
-    );
-};
+            </form>
+        );
+    }
+}
 
 export default AddTask;
