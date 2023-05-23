@@ -1,18 +1,21 @@
+import React from "react";
 import Task from "./Task";
 
-const Tasks = ({ tasks, onToggle, onDelete }) => {
-    return (
-        <>
-            {tasks.map((task) => (
-                <Task
-                    key={task.id}
-                    task={task}
-                    onDelete={onDelete}
-                    onToggle={onToggle}
-                />
-            ))}
-        </>
-    );
-};
+class Tasks extends React.Component {
+    render() {
+        return (
+            <>
+                {this.props.tasks.map((task) => (
+                    <Task
+                        key={task.id}
+                        task={task}
+                        onDelete={this.props.onDelete}
+                        onToggle={this.props.onToggle}
+                    />
+                ))}
+            </>
+        );
+    }
+}
 
 export default Tasks;
